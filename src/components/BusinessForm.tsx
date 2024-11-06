@@ -1,6 +1,6 @@
 import Clock from "../assets/clock.png";
 import Write from "../assets/write.png";
-import Shield from "../assets/shield.png";
+import Secret from "../assets/secret.png";
 import { useForm } from "react-hook-form";
 
 interface BusinessFormData {
@@ -15,8 +15,8 @@ interface BusinessFormData {
     forSaleDescription: string;
     buyerContactNumber: string;
     buyBizTossNumber: string;
-    etc: string;
-    etc2: string;
+    agreement: string;
+    copywright: string;
     serviceImgFile: File;
 }
 
@@ -30,6 +30,23 @@ const BusinessForm = () => {
         <div className="max-w-7xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="p-6 rounded-lg">
+                    <div className="bg-backgroundEmerald p-5 rounded-lg flex flex-col w-full items-start mb-16">
+                        <strong className="text-base font-semibold">
+                            <span className="text-textEmerald">
+                                지금 매물을 등록하세요
+                            </span>
+                        </strong>
+                        <strong className="text-base font-semibold">
+                            <span className="text-textEmerald">
+                                초기 매물 등록을 통해{" "}
+                                <span className="text-black">
+                                    후속 Seller분들보다 더욱 많은 게시글 노출
+                                    혜택{" "}
+                                </span>
+                                을 기대할 수 있어요.
+                            </span>
+                        </strong>
+                    </div>
                     <h2 className="text-3xl font-semibold mb-4 text-left ">
                         비즈니스 매각 신청 폼
                     </h2>
@@ -57,19 +74,20 @@ const BusinessForm = () => {
                         <div className="flex items-center gap-2">
                             <img
                                 className="w-6 h-6"
-                                src={Shield}
-                                alt="shield"
+                                src={Secret}
+                                alt="secret"
                             />
-                            <h2>
-                                <h2>
-                                    대표님께서 작성한 매물 정보는
+
+                            <div className="flex items-center gap-2">
+                                <span>
+                                    대표님께서 작성한 매물 정보는{" "}
                                     <strong className="text-blue-600 font-bold">
                                         비밀유지계약서(NDA)
                                     </strong>
                                     를 작성한 Buyer 분들에게만 공개돼요.
                                     사업정보 유출에 대해 안심하셔도 돼요.
-                                </h2>
-                            </h2>
+                                </span>
+                            </div>
                         </div>
                     </section>
                     <section className="text-left">
@@ -82,6 +100,7 @@ const BusinessForm = () => {
                             계시나요?
                             <sup className="text-red-600">*</sup>
                         </h3>
+                        {/* 매각 고려 여부 */}
                         <div className="flex flex-col items-start my-4 space-y-2">
                             <label htmlFor="business-consideration">
                                 <input
@@ -104,6 +123,7 @@ const BusinessForm = () => {
                                 <span>매각 급함</span>
                             </label>
                         </div>
+                        {/*  */}
                     </section>
                     <section>
                         <h3 className="text-sm my-2 text-left text-gray-800">
@@ -116,9 +136,10 @@ const BusinessForm = () => {
                                 "웹사이트",
                                 "어플리케이션",
                                 "솔루션"
-                            ].map((type) => (
+                            ].map((type, index) => (
                                 <label
-                                    key={type}
+                                    key={`service-${index}`}
+                                    htmlFor={`service-${index}`}
                                     className="inline-flex items-center"
                                 >
                                     <input
@@ -199,8 +220,11 @@ const BusinessForm = () => {
                                     "100~500만원",
                                     "1000~3000만원",
                                     "3000만원 이상"
-                                ].map((price) => (
-                                    <label htmlFor="business-consideration">
+                                ].map((price, index) => (
+                                    <label
+                                        key={`business-${index}`}
+                                        htmlFor={`business-${index}`}
+                                    >
                                         <input
                                             type="radio"
                                             name="business"
@@ -376,7 +400,7 @@ const BusinessForm = () => {
                                     <input
                                         type="radio"
                                         className="block mr-2"
-                                        {...register("etc", {
+                                        {...register("agreement", {
                                             required: true
                                         })}
                                     />
@@ -400,7 +424,7 @@ const BusinessForm = () => {
                                     <input
                                         type="radio"
                                         className="block mr-2"
-                                        {...register("etc2", {
+                                        {...register("copywright", {
                                             required: true
                                         })}
                                     />
