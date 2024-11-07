@@ -17,17 +17,27 @@ interface BusinessFormData {
     buyBizTossNumber: string;
     agreement: string;
     copywright: string;
-    serviceImgFile: File;
+    serviceImgFile: FileList;
 }
 
 const BusinessForm = () => {
-    const { register, handleSubmit } = useForm<BusinessFormData>();
+    const { register, handleSubmit, watch, reset, getValues } =
+        useForm<BusinessFormData>();
+    const serviceImgFile = watch("serviceImgFile");
+
+    const handleFileReset = () => {
+        const currentValue = getValues();
+        reset({
+            ...currentValue,
+            serviceImgFile: undefined
+        });
+    };
 
     const onSubmit = (data: BusinessFormData) => {
         console.log(data);
     };
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto p-6">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="p-6 rounded-lg">
                     <div className="bg-backgroundEmerald p-5 rounded-lg flex flex-col w-full items-start mb-16">
@@ -51,7 +61,7 @@ const BusinessForm = () => {
                         비즈니스 매각 신청 폼
                     </h2>
 
-                    <section className="flex flex-col items-start gap-4 bg-gray-50 p-6 rounded-lg text-sm">
+                    <section className="flex flex-col items-start gap-4 bg-gray-100 p-6 rounded-lg text-sm">
                         <div className="flex items-center gap-2">
                             <img className="w-6 h-6" src={Clock} alt="clock" />
                             <h2>
@@ -198,12 +208,29 @@ const BusinessForm = () => {
                                 사업자등록증이 있으시다면, 파일을
                                 업로드해주세요. (.png or .jpg 형식)
                             </label>
-                            <input
-                                type="file"
-                                className="mb-6 w-full py-2 px-4 rounded-[4px] cursor-pointer "
-                                accept=".png, .jpg"
-                                {...register("serviceImgFile")}
-                            />
+                            <div className="mt-2">
+                                {serviceImgFile ? (
+                                    <div className="flex items-center gap-2">
+                                        <div className="text-sm text-gray-600 p-2 m-1  border border-gray-300">
+                                            {serviceImgFile[0].name}
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={handleFileReset}
+                                            className="text-sm text-red-600 hover:text-red-700"
+                                        >
+                                            삭제
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <input
+                                        type="file"
+                                        className="mb-6 w-full py-2 px-4 rounded-[4px] cursor-pointer file:text-sm file:mr-5 file:py-1 file:px-3 file:border-none file:bg-transparent"
+                                        accept=".png, .jpg"
+                                        {...register("serviceImgFile")}
+                                    />
+                                )}
+                            </div>
                         </div>
 
                         {/* 매출 정보 */}
